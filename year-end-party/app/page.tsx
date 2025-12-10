@@ -15,6 +15,7 @@ export default function LoginPage() {
     }
 
     localStorage.setItem('nickname', nickname.trim());
+    localStorage.setItem('points', '300');
 
     router.push('/auction');
   };
