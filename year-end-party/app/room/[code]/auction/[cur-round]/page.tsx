@@ -15,13 +15,12 @@ export default function AuctionPage() {
   const router = useRouter();
   const params = useParams();
   const roomCode = params.code as string;
+  const curRound = parseInt(params['cur-round'] as string, 10);
 
   const [playerId, setPlayerId] = useState<string | null>(null);
-  const [roomId, setRoomId] = useState<string | null>(null);
-
   const [points, setPoints] = useState<number>(0);
   const [currentRoundId, setCurrentRoundId] = useState<string | null>(null);
-  const [currentRoundNumber, setCurrentRoundNumber] = useState<number>(1);
+  const [curRoomRound, setCurRoomRound] = useState<number|null>(null);
   const [product, setProduct] = useState<Product | null>(null);
 
   const [bidAmount, setBidAmount] = useState<number|undefined>(undefined);
@@ -61,8 +60,12 @@ export default function AuctionPage() {
       .single();
     if (!roomData) return;
 
-    setRoomId(roomData.id);
-    setCurrentRoundNumber(roomData.current_round);
+    setCurRoomRound(roomData.current_round);
+    if (roomData.current_round != curRound) {
+      router.push(`/room/${roomCode}/auction/${roomData.current_round}`);
+      return;
+    }
+
     // ④ players 테이블에서 현재 방(player) 정보 조회
     const { data: player } = await supabase
       .from('players')
@@ -82,7 +85,7 @@ export default function AuctionPage() {
       .from('rounds')
       .select('*')
       .eq('room_id', roomData.id)
-      .eq('round_number', roomData.current_round)
+      .eq('round_number', curRound)
       .single();
     if (roundError) return;
 
@@ -97,7 +100,7 @@ export default function AuctionPage() {
     
     if(bidsData){
       // 이미 입찰한 경우 결과 페이지로 이동
-      router.push(`/room/${roomCode}/result`);
+      router.push(`/room/${roomCode}/result/${curRound}`);
       return;
     }
 
@@ -154,12 +157,12 @@ export default function AuctionPage() {
       .update({ points: newPoints })
       .eq('id', playerId);
 
-    router.push(`/room/${roomCode}/result`);
+    router.push(`/room/${roomCode}/result/${curRound}`);
   };
 
   return (
     <div className="auction-container">
-      <h1 className="auction-title">Round {currentRoundNumber}</h1>
+      <h1 className="auction-title">Round {curRound}</h1>
   
       {product && (
         <>

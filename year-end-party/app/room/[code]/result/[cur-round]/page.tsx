@@ -41,9 +41,10 @@ export default function ResultPage() {
   const router = useRouter();
   const params = useParams();
   const roomCode = params.code as string;
+  const curRound = parseInt(params['cur-round'] as string, 10);
 
   const [myBid, setMyBid] = useState<Bid|null>(null);
-  const [currentRound, setCurrentRound] = useState<number | null>(null);
+  const [curRoomRound, setCurrentRound] = useState<number | null>(null);
   const [totalRound, setTotalRound] = useState<number | null>(null);
   const [currentRoundId, setCurrentRoundId] = useState<string | null>(null);
   const [roomId, setRoomId] = useState<string | null>(null);
@@ -302,16 +303,14 @@ export default function ResultPage() {
     await channel.subscribe();
   };
 
-  console.log(currentRound, buttonDisabled)
-
   const redirectToAuction = () => {
-    router.push(`/room/${roomCode}/auction`);
+    router.push(`/room/${roomCode}/auction/${curRoomRound}`);
   };
 
   return (
     <div className="auction-container">
   
-      <h1 className="auction-round">현재 라운드: {currentRound}</h1>
+      <h1 className="auction-round">현재 라운드: {curRound}</h1>
       <p className="my-bid">내가 제출한 금액: {myBid?.bid_points}</p>
   
       {result.open ? (
@@ -324,9 +323,9 @@ export default function ResultPage() {
               alt={result.product.name}
               className="product-image"
             />
-            {currentRound === totalRound && (
+            {curRound === totalRound && (
               <button
-                disabled={currentRound !== totalRound}
+                disabled={curRound !== totalRound}
                 onClick={()=> router.push(`/rooms`)}
                 className="auction-button"
               >

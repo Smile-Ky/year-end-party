@@ -32,7 +32,7 @@ export default function RoomClient({ room }:{room:Room}) {
 
           // start가 true가 되면 다음 단계 실행
           if (newStart) {
-            router.push(`/room/${room.code}/auction`);
+            router.push(`/room/${room.code}/auction/1`);
             alert("게임이 시작되었습니다!");
             // TODO: 라운드 이동, 화면 전환 등의 로직
           }
@@ -61,7 +61,7 @@ export default function RoomClient({ room }:{room:Room}) {
       </div>
       <br></br>
       {start && (
-        <Link href={`/room/${room.code}/auction`} className="enter-button">
+        <Link href={`/room/${room.code}/auction/1`} className="enter-button">
           입장하기
         </Link>
       )}
