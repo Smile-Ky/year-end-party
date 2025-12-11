@@ -49,6 +49,23 @@ export default async function RoomPage({ params }: { params: { code: string } })
     return <div>유효하지 않은 사용자입니다(users row 없음)</div>;
   }
 
+  // 5. players 테이블에서 이미 존재하는지 확인
+  const { data: existingPlayer } = await supabase
+    .from("players")
+    .select("*")
+    .eq("room_id", room.id)
+    .eq("user_id", userRow.id)
+    .single();
+
+  // 6. 없으면 새로 insert
+  if (!existingPlayer) {
+    await supabase.from("players").insert({
+      room_id: room.id,
+      user_id: userRow.id,
+      points: room.initial_points,
+    });
+  }
+
   if (!room) {
     return <div>방을 찾을 수 없습니다.</div>;
   }

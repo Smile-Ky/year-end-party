@@ -24,7 +24,7 @@ export default function AuctionPage() {
   const [currentRoundNumber, setCurrentRoundNumber] = useState<number>(1);
   const [product, setProduct] = useState<Product | null>(null);
 
-  const [bidAmount, setBidAmount] = useState<number>(0);
+  const [bidAmount, setBidAmount] = useState<number|undefined>(undefined);
 
   /** --------------------------------------------------------------
    * 🔹 1. 세션 → 유저 → players(row) → rounds(row) 가져오기
@@ -117,9 +117,18 @@ export default function AuctionPage() {
    * -------------------------------------------------------------- */
   const handleBid = async () => {
     if (!playerId || !currentRoundId) return;
+    if(bidAmount === undefined) {
+      alert("포인트를 입력하세요.");
+      return;
+    }
 
-    if (bidAmount <= 0 || bidAmount > points) {
+    if ( bidAmount < 0 || bidAmount > points) {
       alert('유효한 포인트를 입력하세요.');
+      return;
+    }
+
+    if (bidAmount % 10 !== 0) {
+      alert('포인트는 10의 배수로 입력해야 합니다.');
       return;
     }
 
@@ -164,18 +173,22 @@ export default function AuctionPage() {
       )}
   
       <p className="remaining-points">잔여 포인트: {points}</p>
-  
+      <div>
       <input
         type="number"
         value={bidAmount}
-        onChange={(e) => setBidAmount(parseInt(e.target.value) || 0)}
+        onChange={(e) => 
+          e.target.value === '' ? setBidAmount(undefined) :
+          setBidAmount(parseInt(e.target.value)||0)}
         placeholder="포인트 입력"
         className="bid-input"
+        step={10}
       />
   
       <button onClick={handleBid} className="bid-button">
         경매 등록
       </button>
+      </div>
     </div>
   );  
 }

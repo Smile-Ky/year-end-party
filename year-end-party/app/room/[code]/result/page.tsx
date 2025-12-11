@@ -44,6 +44,7 @@ export default function ResultPage() {
 
   const [myBid, setMyBid] = useState<Bid|null>(null);
   const [currentRound, setCurrentRound] = useState<number | null>(null);
+  const [totalRound, setTotalRound] = useState<number | null>(null);
   const [currentRoundId, setCurrentRoundId] = useState<string | null>(null);
   const [roomId, setRoomId] = useState<string | null>(null);
   const [buttonDisabled, setButtonDisabled] = useState(true);
@@ -94,6 +95,7 @@ export default function ResultPage() {
       .single();
     if (!roomData) return;
     setRoomId(roomData.id);
+    setTotalRound(roomData.total_rounds);
 
     const { data: playerData, error: playerError} = await supabase
       .from('players')
@@ -322,6 +324,15 @@ export default function ResultPage() {
               alt={result.product.name}
               className="product-image"
             />
+            {currentRound === totalRound && (
+              <button
+                disabled={currentRound !== totalRound}
+                onClick={()=> router.push(`/rooms`)}
+                className="auction-button"
+              >
+                시작페이지로 이동
+              </button>
+            )}
           </>
         ) : (
           <p className="info-text">결과를 불러오는 중입니다...</p>
@@ -339,6 +350,7 @@ export default function ResultPage() {
           경매 페이지로 이동
         </button>
       )}
+      
     </div>
   );  
 }
