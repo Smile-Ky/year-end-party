@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import "./Auction.css";
 
 interface Product {
   name: string;
@@ -148,30 +149,33 @@ export default function AuctionPage() {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Round {currentRoundNumber}</h1>
-
+    <div className="auction-container">
+      <h1 className="auction-title">Round {currentRoundNumber}</h1>
+  
       {product && (
         <>
-          <h2>{product.name}</h2>
+          <h2 className="product-title">{product.name}</h2>
           <img
             src={product.image}
             alt={product.name}
-            style={{ width: '200px' }}
+            className="product-image"
           />
         </>
       )}
-
-      <p>잔여 포인트: {points}</p>
-
+  
+      <p className="remaining-points">잔여 포인트: {points}</p>
+  
       <input
         type="number"
         value={bidAmount}
         onChange={(e) => setBidAmount(parseInt(e.target.value) || 0)}
         placeholder="포인트 입력"
+        className="bid-input"
       />
-
-      <button onClick={handleBid}>경매 등록</button>
+  
+      <button onClick={handleBid} className="bid-button">
+        경매 등록
+      </button>
     </div>
-  );
+  );  
 }

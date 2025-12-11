@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Bid } from '@/lib/supabase/schema';
+import "./Result.css";
 
 interface Product {
   name: string;
@@ -306,30 +307,38 @@ export default function ResultPage() {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>현재 라운드: {currentRound}</h1>
-      <p>내가 제출한 금액: {myBid?.bid_points}</p>
+    <div className="auction-container">
+  
+      <h1 className="auction-round">현재 라운드: {currentRound}</h1>
+      <p className="my-bid">내가 제출한 금액: {myBid?.bid_points}</p>
+  
       {result.open ? (
         result.winner && result.product ? (
           <>
-            <h2>우승자: {result.winner}</h2>
-            <h4>상품: {result.product.name}</h4>
+            <h2 className="winner-text">우승자: {result.winner}</h2>
+            <h4 className="product-name">상품: {result.product.name}</h4>
             <img
               src={result.product.image}
               alt={result.product.name}
-              style={{ width: '200px' }}
+              className="product-image"
             />
           </>
         ) : (
-          <p>결과를 불러오는 중입니다...</p>
+          <p className="info-text">결과를 불러오는 중입니다...</p>
         )
       ) : (
-        <p>경매가 진행 중입니다. 결과를 기다려주세요.</p>
+        <p className="info-text">경매가 진행 중입니다. 결과를 기다려주세요.</p>
       )}
-
-      {!buttonDisabled &&<button disabled={buttonDisabled} onClick={redirectToAuction} style={{ marginTop: '20px' }}>
-        경매 페이지로 이동
-      </button>}
+  
+      {!buttonDisabled && (
+        <button
+          disabled={buttonDisabled}
+          onClick={redirectToAuction}
+          className="auction-button"
+        >
+          경매 페이지로 이동
+        </button>
+      )}
     </div>
-  );
+  );  
 }

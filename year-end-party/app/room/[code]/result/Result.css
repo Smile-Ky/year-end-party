@@ -1,0 +1,85 @@
+.auction-container {
+    max-width: 650px;
+    margin: 70px auto;
+    padding: 40px 30px;
+    background: linear-gradient(135deg, #fff7e8, #ffe7c7);
+    border-radius: 16px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
+    text-align: center;
+  }
+  
+  /* 제목 (현재 라운드) */
+  .auction-round {
+    font-size: 26px;
+    font-weight: 800;
+    color: #e65a0d;
+    margin-bottom: 10px;
+  }
+  
+  /* 나의 배팅 금액 */
+  .my-bid {
+    font-size: 18px;
+    margin-bottom: 24px;
+    font-weight: 600;
+    color: #444;
+  }
+  
+  /* 우승자 텍스트 */
+  .winner-text {
+    font-size: 22px;
+    font-weight: 700;
+    color: #28a745;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  /* 상품 이름 */
+  .product-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #d24b00;
+    margin-bottom: 15px;
+  }
+  
+  /* 상품 이미지 */
+  .product-image {
+    width: 240px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+  }
+  
+  /* 안내 문구 */
+  .info-text {
+    font-size: 18px;
+    color: #666;
+    font-weight: 500;
+    margin-top: 15px;
+  }
+  
+  /* 이동 버튼 */
+  .auction-button {
+    margin-top: 28px;
+    padding: 14px 30px;
+    background: linear-gradient(135deg, #ff7a00, #ff3d3d);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.25s ease;
+  }
+  
+  .auction-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 18px rgba(255, 80, 0, 0.35);
+  }
+  
+  .auction-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  

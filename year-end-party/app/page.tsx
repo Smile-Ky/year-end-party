@@ -123,7 +123,8 @@ export default function LoginPage() {
 
   return (
     <div className="login-container">
-      <h1>송년회에 오신 것을 환영합니다!</h1>
+      <h1>HR데브옵스팀</h1> 
+      <h1>2025 송년회에 오신 것을 환영합니다!</h1>
       <h1>연말 경매 게임</h1>
 
       <input

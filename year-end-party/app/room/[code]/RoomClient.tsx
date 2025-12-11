@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Room } from "@/lib/supabase/schema";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import "./RoomClient.css";
 
 export default function RoomClient({ room }:{room:Room}) {
   const supabase = createClient();
@@ -45,28 +46,25 @@ export default function RoomClient({ room }:{room:Room}) {
   }, [room.id, supabase]);
 
   return (
-    <div>
-      <h1>{room.name}</h1>
-
+    <div className="room-container">
+      <h1 className="room-title">{room.name}</h1>
+  
       <div>
-        <strong style={{ color: start ? "green" : "gray" }}>
-          {start ? "게임이 시작되었습니다! 아래 버튼을 클릭해 입장해주세요" : "잠시만 대기해주세요"}
+        <strong
+          className="room-status"
+          style={{ color: start ? "green" : "gray" }}
+        >
+          {start
+            ? "게임이 시작되었습니다! 아래 버튼을 클릭해 입장해주세요"
+            : "잠시만 대기해주세요"}
         </strong>
       </div>
-
-      {start && (<Link href={`/room/${room.code}/auction`}>입장하기</Link>)}
-
-      {/* 관리자만 눌러서 start 변경 가능
-      <button
-        onClick={async () => {
-          await supabase
-            .from("rooms")
-            .update({ start: true })
-            .eq("id", room.id);
-        }}
-      >
-        Start Game
-      </button> */}
+      <br></br>
+      {start && (
+        <Link href={`/room/${room.code}/auction`} className="enter-button">
+          입장하기
+        </Link>
+      )}
     </div>
   );
 }

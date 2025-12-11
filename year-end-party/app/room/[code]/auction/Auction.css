@@ -1,0 +1,78 @@
+.auction-container {
+    max-width: 650px;
+    margin: 70px auto;
+    padding: 40px 30px;
+    background: linear-gradient(135deg, #fff9ec, #ffe7ca);
+    border-radius: 16px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
+    text-align: center;
+  }
+  
+  /* 제목: 현재 라운드 */
+  .auction-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #e65a0d;
+    margin-bottom: 20px;
+  }
+  
+  /* 상품명 */
+  .product-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #c74600;
+    margin-bottom: 10px;
+  }
+  
+  /* 상품 이미지 */
+  .product-image {
+    width: 220px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    margin-bottom: 20px;
+  }
+  
+  /* 잔여 포인트 */
+  .remaining-points {
+    font-size: 18px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 16px;
+  }
+  
+  /* 입력창 */
+  .bid-input {
+    width: 180px;
+    padding: 12px 12px;
+    border: 2px solid #ffc089;
+    border-radius: 10px;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  
+  .bid-input:focus {
+    outline: none;
+    border-color: #ff8a3d;
+    box-shadow: 0 0 8px rgba(255, 125, 46, 0.4);
+  }
+  
+  /* 등록 버튼 */
+  .bid-button {
+    padding: 14px 28px;
+    background: linear-gradient(135deg, #ff7a00, #ff3d3d);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.25s ease;
+  }
+  
+  .bid-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 18px rgba(255, 80, 0, 0.35);
+  }
+  
