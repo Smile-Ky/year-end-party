@@ -44,11 +44,12 @@ export default function ResultPage() {
   const curRound = parseInt(params['cur-round'] as string, 10);
 
   const [myBid, setMyBid] = useState<Bid|null>(null);
-  const [curRoomRound, setCurrentRound] = useState<number | null>(null);
+  const [curRoomRound, setCurRoomRound] = useState<number | null>(null);
   const [totalRound, setTotalRound] = useState<number | null>(null);
   const [currentRoundId, setCurrentRoundId] = useState<string | null>(null);
   const [roomId, setRoomId] = useState<string | null>(null);
-  const [buttonDisabled, setButtonDisabled] = useState(true);
+
+  const [roundChannel, setRoundChannel] = useState<any>(null);
 
   const [result, setResult] = useState<{
     open: boolean;
@@ -109,15 +110,13 @@ export default function ResultPage() {
       .from('rounds')
       .select('*')
       .eq('room_id', roomData.id)
-      .eq('round_number', roomData.current_round)
+      .eq('round_number', curRound)
       .order('round_number', { ascending: true })
       .single();
 
     if (error) return;
 
     const round = data;
-
-    setCurrentRound(round.round_number);
     setCurrentRoundId(round.id);
 
     const {data:myBidData, error:myBidError} = await supabase
@@ -254,6 +253,7 @@ export default function ResultPage() {
     );
 
    channel.subscribe();
+   setRoundChannel(channel);
   };
 
 
@@ -270,36 +270,10 @@ export default function ResultPage() {
     }
   }, [currentRoundId]);
 
-  useEffect(() => {
-    if (roomId) {
-      subscribeRoom(roomId);
-    }
-  }, [roomId]);
-  
-  const subscribeRoom = async (roomId:string) => {
-    if (!roomId) return;
-  
-    const channel = supabase.channel(`room-${roomId}`).on(
-      "postgres_changes",
-      {
-        event: "UPDATE",
-        schema: "public",
-        table: "rooms",
-        filter: `id=eq.${roomId}`,
-      },
-      (payload) => {
-        const newRound = payload.new.current_round;
-        if (newRound != curRound) {
-          setButtonDisabled(false)
-        }
-      }
-    );
-  
-    await channel.subscribe();
-  };
+
 
   const redirectToAuction = () => {
-    router.push(`/room/${roomCode}/auction/${curRoomRound}`);
+    router.push(`/room/${roomCode}/auction/${curRound+1}`);
   };
 
   return (
@@ -327,6 +301,15 @@ export default function ResultPage() {
                 시작페이지로 이동
               </button>
             )}
+            {curRound !==totalRound && (
+              <button
+                onClick={redirectToAuction}
+                className="auction-button"
+              >
+                경매 페이지로 이동
+              </button>
+            )}
+          
           </>
         ) : (
           <p className="info-text">결과를 불러오는 중입니다...</p>
@@ -335,16 +318,6 @@ export default function ResultPage() {
         <p className="info-text">경매가 진행 중입니다. 결과를 기다려주세요.</p>
       )}
   
-      {!buttonDisabled && (
-        <button
-          disabled={buttonDisabled}
-          onClick={redirectToAuction}
-          className="auction-button"
-        >
-          경매 페이지로 이동
-        </button>
-      )}
-      
     </div>
   );  
 }
