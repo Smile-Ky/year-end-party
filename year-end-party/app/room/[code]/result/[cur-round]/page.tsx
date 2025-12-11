@@ -271,7 +271,6 @@ export default function ResultPage() {
   }, [currentRoundId]);
 
   useEffect(() => {
-    console.log(roomId)
     if (roomId) {
       subscribeRoom(roomId);
     }
@@ -290,13 +289,9 @@ export default function ResultPage() {
       },
       (payload) => {
         const newRound = payload.new.current_round;
-  
-        setCurrentRound((prev) => {
-          if (prev !== newRound) {
-            setButtonDisabled(false);
-          }
-          return newRound;
-        });
+        if (newRound != curRound) {
+          setButtonDisabled(false)
+        }
       }
     );
   
